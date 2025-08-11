@@ -1,0 +1,6 @@
+.env*
+ai-dev
+node_modules
+dist
+*.log
+.claude

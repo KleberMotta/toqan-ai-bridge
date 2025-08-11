@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  toqan-bridge:
+    build: .
+    environment:
+      - TOQAN_API_KEY=${TOQAN_API_KEY}
+      - TOQAN_BASE_URL=${TOQAN_BASE_URL:-https://api.coco.prod.toqan.ai/api}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - POLL_INTERVAL=${POLL_INTERVAL:-0.5}
+      - POLL_TIMEOUT=${POLL_TIMEOUT:-30}
+      - PORT=8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
